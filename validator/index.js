@@ -1,4 +1,4 @@
-exports.userSignupValidator = (req, res) => {
+exports.userSignupValidator = (req, res, next) => {
   req.check("name", "Name is require").notEmpty();
   req
     .check("email", "Email must be between 3 to 32 characters")
@@ -19,7 +19,8 @@ exports.userSignupValidator = (req, res) => {
 
   const errors = req.validationErrors();
   if (errors) {
-    const firstError = errors.map((error) => error.message)[0];
+    const firstError = errors.map((error) => error.msg)[0];
     return res.status(400).json({ error: firstError });
   }
+  next();
 };
