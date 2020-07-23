@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 //installed 5.3.1 version bcuz of this error => express validator is not a function
 const expressValidator = require("express-validator");
 require("dotenv").config();
-
+//TEST COMMENT
 //import users routes
 const userRoutes = require("./routes/user");
 
