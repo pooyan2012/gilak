@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
-const uuidv1 = require("uuidv1");
+//UUIDs are just 128 bit pieces of data, that is displayed as (128/4) = 32 hexadecimal digits
+//const uuidv1 = require("uuidv1");
+const { uuid } = require("uuidv4"); //this is more randome and secure
 
 const userSchema = new mongoose.Schema(
   {
@@ -42,7 +44,8 @@ userSchema
   .virtual("password")
   .set(function (password) {
     this._password = password;
-    this.salt = uuidv1();
+    //this.salt = uuidv1();
+    this.salt = uuid();
     this.hashed_password = this.encryptPassword(password);
   })
   .get(function () {
@@ -63,4 +66,8 @@ userSchema.methods = {
   },
 };
 
+/*
+A model is a class with which we construct documents. 
+In this case, each document will be a user with properties and behaviors as declared in our schema. 
+*/
 module.exports = mongoose.model("User", userSchema);
