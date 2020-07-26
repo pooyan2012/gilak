@@ -1,3 +1,4 @@
+require("dotenv").config();
 const User = require("../models/user");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 const jwt = require("jsonwebtoken"); //to generate signed token
@@ -24,7 +25,8 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
   //find the user based on email
-  const { email, password } = req.bodyUser.findOne({ email }, (err, user) => {
+  const { email, password } = req.body;
+  User.findOne({ email }, (err, user) => {
     if (err || !user) {
       return res.status(400).json({
         err: "User with that email does not exist, Please signup",
@@ -33,7 +35,7 @@ exports.signin = (req, res) => {
     //if user is found make sure the email and  password match
     //create authenticate method in user model
     if (!user.authenticate(password)) {
-      return res.status(401).jason({
+      return res.status(401).json({
         error: "Email and Password dont match",
       });
     }
