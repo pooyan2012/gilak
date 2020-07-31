@@ -12,7 +12,6 @@ const userRoutes = require("./routes/user");
 const categoryRoutes = require("./routes/category");
 const productRoutes = require("./routes/product");
 
-
 //app
 const app = express();
 
@@ -21,6 +20,7 @@ mongoose
   .connect(process.env.DATABASE, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
+    useCreateIndex: true,
   })
   .then(() => console.log("Database Connected!"));
 

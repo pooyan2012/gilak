@@ -1,8 +1,8 @@
 require("dotenv").config();
 const User = require("../models/user");
 const { errorHandler } = require("../helpers/dbErrorHandler");
-const jwt = require("jsonwebtoken"); //to generate signed token
-const expressJwt = require("express-jwt"); //for authorization check
+const jwt = require("jsonwebtoken"); //to generate signed token|https://www.npmjs.com/package/jsonwebtoken
+const expressJwt = require("express-jwt"); //for authorization check|https://www.npmjs.com/package/express-jwt
 
 exports.signup = (req, res) => {
   console.log("req.body", req.body);

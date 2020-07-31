@@ -29,6 +29,7 @@ const productSchema = new mongoose.Schema(
     quantity: {
       type: Number,
     },
+    //its better to store on disk or use GridFS for storing file more than 16mb
     photo: {
       data: Buffer,
       contentType: String,

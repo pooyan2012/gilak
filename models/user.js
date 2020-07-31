@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const crypto = require("crypto");
+const crypto = require("crypto");//this is deprecated must use other way = TO-DO
 //UUIDs are just 128 bit pieces of data, that is displayed as (128/4) = 32 hexadecimal digits
 //const uuidv1 = require("uuidv1");
 const { uuid } = require("uuidv4"); //this is more randome and secure
@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-//Virtual Fields
+//Virtual Fields|https://mongoosejs.com/docs/tutorials/virtuals.html
 userSchema
   .virtual("password")
   .set(function (password) {
@@ -52,6 +52,7 @@ userSchema
     return this._password;
   });
 
+//https://mongoosejs.com/docs/2.7.x/docs/methods-statics.html
 userSchema.methods = {
   encryptPassword: function (password) {
     if (!password) return "";
