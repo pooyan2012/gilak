@@ -1,4 +1,4 @@
-const formidable = require("formidable");//A Node.js module for parsing form data, especially file uploads.|https://www.npmjs.com/package/formidable
+const formidable = require("formidable"); //A Node.js module for parsing form data, especially file uploads.|https://www.npmjs.com/package/formidable
 const _ = require("lodash");
 const fs = require("fs");
 const Product = require("../models/product");
@@ -25,6 +25,7 @@ exports.create = (req, res) => {
           error: errorHandler(err),
         });
       }
+      res.json(result);
     });
   });
 };
