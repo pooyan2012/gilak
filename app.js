@@ -3,6 +3,7 @@ const mongoose = require("mongoose"); //database
 const morgan = require("morgan"); //logging purpose
 const bodyParser = require("body-parser"); //for parsing the incoming request bodies in a middleware before you handle it
 const cookieParser = require("cookie-parser"); //middleware which parses cookies attached to the client request object
+const cors = require("cors");
 const expressValidator = require("express-validator"); //installed 5.3.1 version bcuz of this error => express validator is not a function
 require("dotenv").config();
 
@@ -29,6 +30,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
+app.use(cors());
 
 //routes middleware
 app.use("/api", authRoutes);
