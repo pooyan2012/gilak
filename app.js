@@ -3,8 +3,10 @@ const mongoose = require("mongoose"); //database
 const morgan = require("morgan"); //logging purpose
 const bodyParser = require("body-parser"); //for parsing the incoming request bodies in a middleware before you handle it
 const cookieParser = require("cookie-parser"); //middleware which parses cookies attached to the client request object
+//https://en.wikipedia.org/wiki/Cross-origin_resource_sharing | https://expressjs.com/en/resources/middleware/cors.html
 const cors = require("cors");
-const expressValidator = require("express-validator"); //installed 5.3.1 version bcuz of this error => express validator is not a function
+//installed 5.3.1 version bcuz of this error => express validator is not a function | https://express-validator.github.io/docs/
+const expressValidator = require("express-validator");
 require("dotenv").config();
 
 //import users routes
