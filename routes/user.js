@@ -1,18 +1,17 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+const {findUserById, read, update, purchaseHistory} =  require('../controllers/user');
+const {requireSignIn, isAuth, isAdmin} =  require('../controllers/auth');
 
-const { requireSignin, isAuth, isAdmin } = require("../controllers/auth");
-
-const { userById, read, update } = require("../controllers/user");
-
-router.get("/secret/:userId", requireSignin, isAuth, isAdmin, (req, res) => {
-  res.json({
-    User: req.profile,
-  });
+router.get('/secret/:userId', requireSignIn, isAuth, isAdmin, (req, res) => {
+    res.json({
+        user: req.profile
+    });
 });
-router.get("/user/:userd", requireSignin, isAuth, read);
-router.get("/user/:userd", requireSignin, isAuth, update);
+router.param('userId', findUserById);
+router.get('/user/:userId', requireSignIn, isAuth, read);
+router.put('/user/:userId', requireSignIn, isAuth, update);
+router.get('/orders/by/user/:userId', requireSignIn, isAuth, purchaseHistory);
 
-router.param("userId", userById);
 
 module.exports = router;

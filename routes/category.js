@@ -1,36 +1,16 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+const {create, read, list, update, remove, findCategoryById} = require('../controllers/category');
+const {findUserById} =  require('../controllers/user');
+const {requireSignIn, isAuth, isAdmin} =  require('../controllers/auth');
 
-const {
-  create,
-  categoryById,
-  read,
-  update,
-  remove,
-  list,
-} = require("../controllers/category");
-const { requireSignin, isAuth, isAdmin } = require("../controllers/auth");
-const { userById } = require("../controllers/user");
+router.get('/category/read/:categoryId', read);
+router.get('/categories', list);
+router.post('/category/create/:userId', requireSignIn, isAuth, isAdmin, create);
+router.put('/category/:categoryId/:userId', requireSignIn, isAuth, isAdmin, update);
+router.delete('/category/:categoryId/:userId', requireSignIn, isAuth, isAdmin, remove);
 
-router.get("/category/:categoryId", read);
-router.post("/category/create/:userId", requireSignin, isAuth, isAdmin, create);
-router.put(
-  "/category/:categoryId/:userId",
-  requireSignin,
-  isAuth,
-  isAdmin,
-  update
-);
-router.delete(
-  "/category/:categoryId/:userId",
-  requireSignin,
-  isAuth,
-  isAdmin,
-  remove
-);
-router.get("/categories", list);
-
-router.param("categoryId", categoryById);
-router.param("userId", userById); //:userId is the parameter from above router\|/more: https://www.geeksforgeeks.org/express-js-router-param-function/
+router.param('categoryId', findCategoryById);
+router.param('userId', findUserById);
 
 module.exports = router;

@@ -1,47 +1,50 @@
-const express = require("express");
-const mongoose = require("mongoose"); //database
-const morgan = require("morgan"); //logging purpose
-const bodyParser = require("body-parser"); //for parsing the incoming request bodies in a middleware before you handle it
-const cookieParser = require("cookie-parser"); //middleware which parses cookies attached to the client request object
-//https://en.wikipedia.org/wiki/Cross-origin_resource_sharing | https://expressjs.com/en/resources/middleware/cors.html
-const cors = require("cors");
-//installed 5.3.1 version bcuz of this error => express validator is not a function | https://express-validator.github.io/docs/
-const expressValidator = require("express-validator");
-require("dotenv").config();
+const express = require('express');
+const mongoose = require('mongoose');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const expressValidator = require('express-validator');
+require('dotenv').config();
+// import routes
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+const categoryRoutes = require('./routes/category');
+const productRoutes = require('./routes/product');
+const braintreeRoutes = require('./routes/braintree');
+const orderRoutes = require('./routes/order');
 
-//import users routes
-const authRoutes = require("./routes/auth");
-const userRoutes = require("./routes/user");
-const categoryRoutes = require("./routes/category");
-const productRoutes = require("./routes/product");
-
-//app
 const app = express();
+const PORT = process.env.PORT || 8000;
+const CONNECTION = process.env.MONGO_DB_URI;
 
-//db
-mongoose
-  .connect(process.env.DATABASE, {
-    useUnifiedTopology: true,
+// DB connection
+mongoose.connect(CONNECTION, {
     useNewUrlParser: true,
     useCreateIndex: true,
-  })
-  .then(() => console.log("Database Connected!"));
+    useFindAndModify: false,
+    useUnifiedTopology: true
+    }).then(() => {
+        console.log('DB connected');
+    }).catch((err) => {
+        console.log(`Error connecting to the database:\n ${err}`)
+    });
 
-//middlewares
-app.use(morgan("dev"));
+// middleware
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(expressValidator());
 app.use(cors());
+app.use(expressValidator());
 
-//routes middleware
-app.use("/api", authRoutes);
-app.use("/api", userRoutes);
-app.use("/api", categoryRoutes);
-app.use("/api", productRoutes);
+// routes
+app.use('/api', authRoutes);
+app.use('/api', userRoutes);
+app.use('/api', categoryRoutes);
+app.use('/api', productRoutes);
+app.use('/api', braintreeRoutes);
+app.use('/api', orderRoutes);
 
-const port = process.env.PORT || 8000;
-
-app.listen(port, () => {
-  console.log(`server is running on port ${port}`);
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
